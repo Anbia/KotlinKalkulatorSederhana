@@ -2,11 +2,17 @@ package com.kodeanbia.kotlinkalkulatorsederhana
 
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.os.Handler
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main2.*
 
 class Main2Activity : AppCompatActivity() {
+
+    var number:Int = 0
+    var handler:Handler = Handler()
+    var runnable: Runnable = Runnable {  }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,4 +30,28 @@ class Main2Activity : AppCompatActivity() {
 
         }.start()
     }
+
+    fun start(view:View){
+        number = 0
+        runnable = object : Runnable{
+            override fun run() {
+                textViewRunnable.text = "Time :" + number
+                number++
+                textViewRunnable.text = "Time : " + number
+                handler.postDelayed(this,1000)
+            }
+
+        }
+        handler.post(runnable)
+        Toast.makeText(applicationContext, "Start",Toast.LENGTH_LONG).show()
+    }
+
+    fun reset(view: View){
+        handler.removeCallbacks(runnable)
+        number = 0
+
+        textViewRunnable.text = "Time : " + number
+        Toast.makeText(applicationContext, "Reset",Toast.LENGTH_LONG).show()
+    }
+
 }
