@@ -1,8 +1,10 @@
 package com.kodeanbia.kotlinkalkulatorsederhana
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Handler
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Toast
@@ -47,11 +49,27 @@ class Main2Activity : AppCompatActivity() {
     }
 
     fun reset(view: View){
-        handler.removeCallbacks(runnable)
-        number = 0
 
-        textViewRunnable.text = "Time : " + number
-        Toast.makeText(applicationContext, "Reset",Toast.LENGTH_LONG).show()
+        val alert = AlertDialog.Builder(this)
+
+        alert.setTitle("Reset")
+        alert.setMessage("Are you sure?")
+        alert.setPositiveButton("yes"){
+            dialog: DialogInterface?, which: Int ->
+
+            handler.removeCallbacks(runnable)
+            number = 0
+
+            textViewRunnable.text = "Time : " + number
+            Toast.makeText(applicationContext, "Reset",Toast.LENGTH_LONG).show()
+        }
+        alert.setNegativeButton("No"){
+            dialog: DialogInterface?, which: Int ->
+            Toast.makeText(applicationContext, "Not Reset",Toast.LENGTH_LONG).show()
+        }
+        alert.show()
+
+
     }
 
 }
